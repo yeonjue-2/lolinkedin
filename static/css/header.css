@@ -1,0 +1,10 @@
+header{
+    margin: auto;
+    height : 20%;
+    position: relative;
+}
+
+.navbar-nav {
+    font-size: 20px;
+    font-weight: bold;
+}
