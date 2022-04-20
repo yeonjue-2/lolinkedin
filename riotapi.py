@@ -2,7 +2,7 @@ import requests
 from urllib import parse
 
 class RiotApi:
-    API_KEY = "RGAPI-d4d1580e-fae9-4653-b5bd-2de5e488dce4"
+    API_KEY = "API_KEY"
     REQUEST_HEADERS = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
         "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
