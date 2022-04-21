@@ -22,7 +22,7 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/header.css">
     <link rel="stylesheet" type="text/css" href="/static/css/footer.css">
-
+    <link rel="stylesheet" type="text/css" href="/static/css/mainpage.css">
     <style>
         .wrap{
             min-height: 100vh;
@@ -39,48 +39,46 @@
                 font-size: 20px;
                 font-weight: bold;
             }
-        main {
-                margin: 10px auto 100px auto;
-                height: 110px;
-                width: 1100px;
-            }
-            .main-title{
-                margin : 10px 10px 10px 10px;
-            }
 
 
-        footer {
-                margin: auto;
-                width: 100%;
-                height: 200px;
-                bottom: 0px;
-                position: absolute;
-            }
-
-            .footer-container {
-                width: 100%;
-                height: 200px;
-                margin: 0 auto;
-                display: flex;
-                background-color: #494949;
-            }
-
-            .footer-right {
-                width: 90%;
-                display: flex;
-                justify-content: flex-end;
-                text-align: center;
-                font-size: 1rem;
-                color: white;
-                margin-top: 2rem;
-            }
 
             .team {
                 list-style: none;
                 font-size: 18px;
             }
     </style>
+    <script>
+        function user_Nick() {
+            $.ajax({
+                type: "GET",
+                url: "/api/mainpage",
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    let user = response['userName']
+                    for (let i = 0; i < user.length; i++) {
+                        let userName = user[i]['userName'];
 
+                         let data = response['userData']
+                         for (let i = 0; i < data.length; i++) {
+                             let tier = data[i]['tier'];
+                             let rank = data[i]['rank'];
+
+                             let temp_html = `<div class="card text-center">
+                                                  <img class="card-img-top" src="../static/image/chal.png" alt="Card image cap">
+                                                  <div class="card-body">
+                                                    <h5 class="card-title" style="text-align:center">${tier}${rank}</h5>
+                                                    <h5 class="card-title" style="text-align:center">${userName}</h5>
+                                                    <a href="#" class="btn btn-primary" style="text-align:center">더 알아보기</a>
+                                                  </div>`
+                             $('#cards-box').append(temp_html)
+                         }
+
+                    }
+                }
+            })
+        }
+    </script>
     <title>LOLinkedIn | 롤크드인</title>
 </head>
 
@@ -112,40 +110,8 @@
         <div class="main-title">
             <h1>PROFILE</h1>
         </div>
-        <div class="card text-center" style="width: 18rem;border: 2px solid grey;border-radius:5px;float: left; width: 21%;margin: auto 10px auto 10px">
-          <img class="card-img-top" src="../static/image/chal.png" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title" style="text-align:center">챌린저</h5>
-              <p class="card-nickname">닉네임</p>
-            <a href="#" class="btn btn-primary" style="text-align:center">더 알아보기</a>
-          </div>
+        <div id="cards-box" class="card-columns">
         </div>
-        <div class="card text-center" style="width: 18rem;border: 2px solid grey;border-radius:5px;float: left; width: 21%;margin: auto 10px auto 10px">
-          <img class="card-img-top" src="../static/image/pl.png" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title" style="text-align:center">플래티넘</h5>
-              <p class="card-nickname">닉네임</p>
-            <a href="#" class="btn btn-primary" style="text-align:center">더 알아보기</a>
-          </div>
-        </div>
-        <div class="card text-center" style="width: 18rem;border: 2px solid grey;border-radius:5px;float: left; width: 21%;margin: auto 10px auto 10px">
-          <img class="card-img-top" src="../static/image/gold.png" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title" style="text-align:center">골드</h5>
-              <p class="card-nickname">닉네임</p>
-            <a href="#" class="btn btn-primary" style="text-align:center">더 알아보기</a>
-          </div>
-        </div>
-        <div class="card text-center" style="width: 18rem;border: 2px solid grey;border-radius:5px;float: left; width: 21%;margin: auto 10px auto 10px">
-          <img class="card-img-top" src="../static/image/brz.png" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title" style="text-align:center">브론즈</h5>
-              <p class="card-nickname">닉네임</p>
-            <a href="#" class="btn btn-primary" style="text-align:center">더 알아보기</a>
-          </div>
-        </div>
-
-
 
 
     </main>

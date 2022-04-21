@@ -8,8 +8,6 @@ app = Flask(__name__)
 client = MongoClient('localhost', 27017)
 db = client.dbchallenger
 
-
-# HTML 화면 보여주기
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -18,7 +16,28 @@ def home():
 def showUserInfo():
     return render_template('userInfo.html')
 
-# userinfo 페이지에 데이터 전송
+@app.route('/mainpage')
+def showmain():
+    return render_template('mainpage.html')
+
+
+@app.route('/api/mainpage', methods=['GET'])
+def user_nick():
+    userinput = list(db.users.find())
+
+    userDataList = []
+
+    riotData = riotapi.RiotApi()
+
+    for user in userinput:
+        userData = {}
+        userData['userData'] = riotData.getUserRankInfo(user['userName'])
+        userData['userName'] = user['userName']
+        userDataList.append(userData);
+
+    return jsonify(userDataList)
+
+
 @app.route('/api/member', methods=['GET'])
 def userInfo():
 
@@ -37,4 +56,4 @@ def userInfo():
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5002, debug=True)
