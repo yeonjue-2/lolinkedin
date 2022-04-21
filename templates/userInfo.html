@@ -71,13 +71,13 @@
                         let deaths = lastGames[i]['deaths']
                         let assists = lastGames[i][`assists`]
                         let win = lastGames[i]['win']
+                        let gameResult
+                        console.log(win)
                         if(win==true){
-                            win ="승리"
+                            gameResult ="승리"
                         }
                         else{
-                            win="패배"
-                            document.getElementsByClassName('logBox-css')[i].style.backgroundColor = 'MistyRose'
-                            document.getElementsByClassName('game-result')[i].style.color ='red'
+                            gameResult="패배"
                         }
                         let totalMinionsKilled = lastGames[i]['totalMinionsKilled']
                         let timePlayed = lastGames[i]['timePlayed']
@@ -90,7 +90,7 @@
                         let temp_html = `<li>
                                             <div class="logBox-css">
                                                 <div class="info">
-                                                    <div class="game-result">${win}</div>
+                                                    <div class="game-result">${gameResult}</div>
                                                     <div class="bar"></div>
                                                     <div class="game-length">${minutes}분 ${seconds}초</div>
                                                 </div>
@@ -119,6 +119,11 @@
                                             </div>
                                         </li>`
                         $('#gameData').append(temp_html)
+
+                        if(win==false){
+                            document.getElementsByClassName('logBox-css')[i].style.backgroundColor = 'MistyRose'
+                            document.getElementsByClassName('game-result')[i].style.color ='red'
+                        }
                     }
                 }
             });
@@ -174,37 +179,6 @@
     </div>
     <hr style="width: 1100px">
     <ul id="gameData">
-        <li>
-            <div class="logBox-css">
-                <div class="info">
-                    <div class="game-result">게임결과</div>
-                    <div class="bar"></div>
-                    <div class="game-length">게임시간</div>
-                </div>
-                <div class="position">
-                    <div class="icon">
-                        <img src="../static/image/BOTTOM.png" alt="포지션아이콘">
-                    </div>
-                    <div class="name">포지션이름</div>
-                </div>
-                <div class="champion">
-                    <div class="icon">
-                        <img src="../static/image/ari.png" alt="챔피언사진">
-                    </div>
-                    <div class="name">챔피언이름</div>
-                </div>
-                <div class="kda">
-                    <div class="k-d-a">
-                        <span>킬</span>
-                        /
-                        <span style="color: red">데스</span>
-                        /
-                        <span>어시</span>
-                    </div>
-                    <div class="status">cs n개</div>
-                </div>
-            </div>
-        </li>
     </ul>
     <hr style="width: 1100px">
 </div>
