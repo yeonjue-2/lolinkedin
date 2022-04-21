@@ -74,7 +74,6 @@ class RiotApi:
                     'lose':(0 if nowWinFlag else 1),
                 }
                 self.championStat[championName] = gameStat
-            break;
 
         maxCount = 0;
         maxKda = 0;
