@@ -39,6 +39,7 @@ function showUserInfo() {
             $('#death').html(avDeaths)
             $('#assist').html(avAssist)
             $('#average').html(average)
+            $('#picture').attr('src',"../static/image/"+mostChampName+".png")
 
             for (let i = 0; i < lastGames.length; i++) {
                 let summonerName = lastGames[i]['summonerName']
@@ -75,7 +76,7 @@ function showUserInfo() {
                                                 </div>
                                                 <div class="champion">
                                                     <div class="icon">
-                                                        <img src="../static/image/ari.png" alt="챔피언사진">
+                                                        <img src="../static/image/${championName}.png" alt="챔피언사진">
                                                     </div>
                                                     <div class="name">${championName}</div>
                                                 </div>

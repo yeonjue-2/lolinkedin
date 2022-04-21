@@ -42,16 +42,15 @@ def user_nick():
 def userInfo():
 
     userName = request.args.get('userName')
+    riotData = riotapi.RiotApi(userName)
 
-    riotData = riotapi.RiotApi()
-
-    userData = riotData.getUserRankInfo(userName)
+    userData = riotData.getUserRankInfo()
     tier = userData[0]['tier']
     rank = userData[0]['rank']
 
-    lastGames = riotData.getUserLastGames(userName)
-
-    mostChampions = riotData.getMostChampion(userName)
+    riots = riotData.getUserLastGameInfo()
+    lastGames = riots['gameInfo']
+    mostChampions = riots['mostChampionStat']
 
     return jsonify({'tier':tier, 'rank':rank, 'lastGames':lastGames, 'mostChampions':mostChampions})
 
