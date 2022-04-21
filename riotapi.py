@@ -2,6 +2,13 @@ import requests
 from urllib import parse
 
 class RiotApi:
+    def __init__(self,userNickname):
+        encodedName = parse.quote(userNickname)
+        player = requests.get("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + encodedName, headers=self.REQUEST_HEADERS).json();
+        self.userNickname = userNickname
+        self.lolUserInfoConsistOfJson = player
+        self.gameList = []
+        self.championStat = {}
     API_KEY = "API_KEY"
     REQUEST_HEADERS = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
@@ -10,17 +17,10 @@ class RiotApi:
         "Origin": "https://developer.riotgames.com",
         "X-Riot-Token": API_KEY
     }
-    PROFILE_RECENT_GAME_COUNT = 5
-    MOST_CHAMPION_GAME_COUNT = 20
+    USER_LAST_GAME_COUNT = 20
 
-    def getUserInfo(self, userNickname):
-        encodedName = parse.quote(userNickname)
-        player = requests.get("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + encodedName,headers=self.REQUEST_HEADERS).json();
-        return player;
-
-    def getUserRankInfo(self, userNickname):
-        lolUserInfoConsistOfJson = self.getUserInfo(userNickname);
-        id = lolUserInfoConsistOfJson["id"];
+    def getUserRankInfo(self):
+        id = self.lolUserInfoConsistOfJson["id"];
         playerInfo = requests.get("https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+id, headers = self.REQUEST_HEADERS).json();
         return playerInfo
 
@@ -28,67 +28,58 @@ class RiotApi:
         gameIdList = requests.get("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"+puuid+"/ids?type=ranked&start=0&count="+str(gameCount), headers = self.REQUEST_HEADERS).json();
         return gameIdList;
 
-    def getUserLastGames(self,userNickname):
-        lolUserInfoConsistOfJson = self.getUserInfo(userNickname);
-        puuid = lolUserInfoConsistOfJson["puuid"];
-        userLastGameIdList = self.getUserLastGameId(puuid,self.PROFILE_RECENT_GAME_COUNT);
-        gameList =[];
+    def getUserLastGameInfo(self):
+        puuid = self.lolUserInfoConsistOfJson["puuid"];
+        userLastGameIdList = self.getUserLastGameId(puuid,self.USER_LAST_GAME_COUNT);
+
         for gameId in userLastGameIdList:
             gameInfo = requests.get("https://asia.api.riotgames.com/lol/match/v5/matches/"+gameId, headers = self.REQUEST_HEADERS).json();
             participantsList =gameInfo["info"]["participants"]
             for participant in participantsList:
                 name = participant["summonerName"]
-                if name==userNickname:
-                    gameList.append(participant);
+                if name==self.userNickname:
+                    self.gameList.append(participant);
                     break;
-        return gameList;
+        mostChampionStat = self.getMostChampion();
+        return {'gameInfo':self.gameList,'mostChampionStat':mostChampionStat};
 
-    def getMostChampion(self,userNickname):
-        lolUserInfoConsistOfJson = self.getUserInfo(userNickname);
-        puuid = lolUserInfoConsistOfJson["puuid"];
-        userLastGameIdList = self.getUserLastGameId(puuid,self.MOST_CHAMPION_GAME_COUNT);
-        championStat = {}
-        for gameId in userLastGameIdList:
-            gameInfo = requests.get("https://asia.api.riotgames.com/lol/match/v5/matches/" + gameId, headers=self.REQUEST_HEADERS).json();
-            participantsList = gameInfo["info"]["participants"]
-            for participant in participantsList:
-                name = participant["summonerName"]
-                if name==userNickname:
-                    championName = participant["championName"]
-                    nowKills = participant["kills"]
-                    nowAssists = participant["assists"]
-                    nowDeaths = participant["deaths"]
-                    nowWinFlag = participant["win"]
+    def getMostChampion(self):
+        for game in self.gameList:
+            championName = game["championName"]
+            nowKills = game["kills"]
+            nowAssists = game["assists"]
+            nowDeaths = game["deaths"]
+            nowWinFlag = game["win"]
 
-                    if championName in championStat:
-                        kills = championStat[championName]["kills"]
-                        assists = championStat[championName]["assists"]
-                        deaths = championStat[championName]["deaths"]
-                        win = championStat[championName]["win"]
-                        lose = championStat[championName]["lose"]
+            if championName in self.championStat:
+                kills = self.championStat[championName]["kills"]
+                assists = self.championStat[championName]["assists"]
+                deaths = self.championStat[championName]["deaths"]
+                win = self.championStat[championName]["win"]
+                lose = self.championStat[championName]["lose"]
 
-                        championStat[championName]["kills"] = kills + nowKills
-                        championStat[championName]["assists"] = assists + nowAssists
-                        championStat[championName]["deaths"] = deaths + nowDeaths
-                        championStat[championName]["win"] = win + (1 if nowWinFlag else 0)
-                        championStat[championName]["lose"] = lose + (0 if nowWinFlag else 1)
-                    else:
-                        gameStat = {
-                            'name' : championName,
-                            'kills' : nowKills,
-                            'assists':nowAssists,
-                            'deaths':nowDeaths,
-                            'win':(1 if nowWinFlag else 0),
-                            'lose':(0 if nowWinFlag else 1),
-                        }
-                        championStat[championName] = gameStat
-                    break;
+                self.championStat[championName]["kills"] = kills + nowKills
+                self.championStat[championName]["assists"] = assists + nowAssists
+                self.championStat[championName]["deaths"] = deaths + nowDeaths
+                self.championStat[championName]["win"] = win + (1 if nowWinFlag else 0)
+                self.championStat[championName]["lose"] = lose + (0 if nowWinFlag else 1)
+            else:
+                gameStat = {
+                    'name' : championName,
+                    'kills' : nowKills,
+                    'assists':nowAssists,
+                    'deaths':nowDeaths,
+                    'win':(1 if nowWinFlag else 0),
+                    'lose':(0 if nowWinFlag else 1),
+                }
+                self.championStat[championName] = gameStat
+            break;
 
         maxCount = 0;
         maxKda = 0;
         mostChampion = {}
-        for key in championStat.keys():
-            champion = championStat[key];
+        for key in self.championStat.keys():
+            champion = self.championStat[key];
             count = champion["win"]+champion["lose"]
             kda = (champion["kills"]+champion["assists"])/champion["deaths"]
             if maxCount<count:
@@ -99,4 +90,3 @@ class RiotApi:
                 mostChampion = champion
                 maxKda = kda
         return mostChampion
-
