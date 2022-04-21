@@ -22,15 +22,114 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/header.css">
     <link rel="stylesheet" type="text/css" href="/static/css/footer.css">
-
+    <link rel="stylesheet" type="text/css" href="/static/css/userInfoCSS.css">
     <style>
         .wrap {
             min-height: 100vh;
             position: relative;
             width: 100%;
         }
-    </style>
 
+        .button-right {
+            float: right;
+        }
+
+        .card {
+            width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            showUserInfo();
+        });
+
+        function showUserInfo() {
+
+            urlSearch = new URLSearchParams(location.search);
+            userName = urlSearch.get('userName')
+
+            //userName 쿼리 스트링
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/member?userName=' + userName,
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    let tier = response['tier']
+                    let rank = response['rank']
+                    let lastGames = response['lastGames']
+
+                    for (let i = 0; i < lastGames.length; i++) {
+                        let summonerName = lastGames[i]['summonerName']
+                        let championName = lastGames[i]['championName']
+                        let teamPosition = lastGames[i]['teamPosition']
+                        let kills = lastGames[i]['kills']
+                        let deaths = lastGames[i]['deaths']
+                        let assists = lastGames[i][`assists`]
+                        let win = lastGames[i]['win']
+                        let gameResult
+                        console.log(win)
+                        if(win==true){
+                            gameResult ="승리"
+                        }
+                        else{
+                            gameResult="패배"
+                        }
+                        let totalMinionsKilled = lastGames[i]['totalMinionsKilled']
+                        let timePlayed = lastGames[i]['timePlayed']
+                        let minutes = parseInt(timePlayed / 60)
+                        let seconds = timePlayed % 60
+
+                        console.log(lastGames[2]['win'])
+
+
+                        let temp_html = `<li>
+                                            <div class="logBox-css">
+                                                <div class="info">
+                                                    <div class="game-result">${gameResult}</div>
+                                                    <div class="bar"></div>
+                                                    <div class="game-length">${minutes}분 ${seconds}초</div>
+                                                </div>
+                                                <div class="position">
+                                                    <div class="icon">
+                                                        <img src="../static/image/${teamPosition}.png" alt="포지션아이콘">
+                                                    </div>
+                                                    <div class="name">${teamPosition}</div>
+                                                </div>
+                                                <div class="champion">
+                                                    <div class="icon">
+                                                        <img src="../static/image/ari.png" alt="챔피언사진">
+                                                    </div>
+                                                    <div class="name">${championName}</div>
+                                                </div>
+                                                <div class="kda">
+                                                    <div class="k-d-a">
+                                                        <span>${kills}</span>
+                                                        /
+                                                        <span style="color: red">${deaths}</span>
+                                                        /
+                                                        <span>${assists}</span>
+                                                    </div>
+                                                    <div class="status">cs ${totalMinionsKilled}</div>
+                                                </div>
+                                            </div>
+                                        </li>`
+                        $('#gameData').append(temp_html)
+
+                        if(win==false){
+                            document.getElementsByClassName('logBox-css')[i].style.backgroundColor = 'MistyRose'
+                            document.getElementsByClassName('game-result')[i].style.color ='red'
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
     <title>LOLinkedIn | 롤크드인</title>
 </head>
 
@@ -46,7 +145,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link active" href="#">About <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link active" href="#">About<span class="sr-only">(current)</span></a>
                         <a class="nav-item nav-link" href="#">Member</a>
                         <a class="nav-item nav-link" href="#">Community</a>
                     </div>
@@ -57,77 +156,45 @@
             </nav>
         </div>
     </header>
-
-    <!-- Page Content-->
     <div class="container px-4 px-lg-5">
         <!-- Heading Row-->
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
             <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0"
                                        src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..."/></div>
             <div class="col-lg-5">
-                <h1 class="font-weight-light">소환사이름 or 이름</h1>
-                <p>자기소개를 이래저래~~ 막 써놓는 곳</p>
-                <a class="btn btn-primary" href="#!">듀오 신청</a>
-                <a class="btn btn-primary" href="#!">❤</a>
-            </div>
-        </div>
-        <!-- Call to Action-->
-        <div class="card text-white bg-secondary my-5 py-4 text-center">
-            <div class="card-body"><p class="text-white m-0">티어 / 포지션</p></div>
-        </div>
-        <!-- Content Row-->
-        <div class="row gx-4 gx-lg-5">
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h2 class="card-title">모스트 챔피언</h2>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h2 class="card-title">최근 전적</h2>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h2 class="card-title">그외</h2>
-                        <p class="card-text"></p>
-                    </div>
-                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                <h1 class="font-weight-light">summonerName</h1>
+                <span class="badge badge-success">tier</span>
+                <span class="badge badge-success">rank</span>
+                <hr>
+                <div class="button-right">
+                    <a class="btn btn-primary" href="#!">듀오 신청</a>
+                    <a class="btn btn-primary" href="#!">❤</a>
+                    <a class="btn btn-primary" href="#!">🚨</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container px-4 px-lg-5"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p>
+    <div class="card text-white bg-secondary my-5 py-4 text-center">
+        <div class="card-body"><p class="text-white m-0">하고싶은말 남기는 곳</p></div>
+    </div>
+    <hr style="width: 1100px">
+    <ul id="gameData">
+    </ul>
+    <hr style="width: 1100px">
+</div>
+<footer>
+    <div class="footer-container">
+        <div class="footer-right">
+            <h2>PROJECT TEAM</h2>
+            <ul class="team">
+                <li>유시준</li>
+                <li>강현규</li>
+                <li>김예지</li>
+                <li>최현우</li>
+            </ul>
         </div>
-    </footer>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
-
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-right">
-                <h2>PROJECT TEAM</h2>
-                <ul class="team">
-                    <li>유시준</li>
-                    <li>강현규</li>
-                    <li>김예지</li>
-                    <li>최현우</li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+    </div>
+</footer>
 </div>
 </body>
 
