@@ -14,26 +14,25 @@ db = client.dbchallenger
 def home():
     return render_template('index.html')
 
+@app.route('/userinfo')
+def showUserInfo():
+    return render_template('userInfo.html')
+
+# userinfo 페이지에 데이터 전송
 @app.route('/api/member', methods=['GET'])
 def userInfo():
 
-    userName = request.form['userName']
+    userName = request.args.get('userName')
 
     riotData = riotapi.RiotApi()
 
-    userData = riotData.getUserRankInfo(userName)      #티어
-    tier = userData['tier']
-    rank = userData['rank']
+    userData = riotData.getUserRankInfo(userName)
+    tier = userData[0]['tier']
+    rank = userData[0]['rank']
 
-    lastGames = riotData.getUserLastGames(userName)    #최근전적
+    lastGames = riotData.getUserLastGames(userName)
 
     return jsonify({'tier':tier, 'rank':rank, 'lastGames':lastGames})
-
-
-
-
-
-
 
 
 
