@@ -46,10 +46,16 @@
             showUserInfo();
         });
 
-        function showUserInfo(userName) {
+        function showUserInfo() {
+
+            urlSearch = new URLSearchParams(location.search);
+            userName = urlSearch.get('userName')
+
+            //userName 쿼리 스트링
+
             $.ajax({
                 type: 'GET',
-                url: '/api/member?userName=롤닉네임',
+                url: '/api/member?userName='+userName,
                 data: {},
                 success: function (response) {
                     let tier = response['tier']
@@ -67,10 +73,41 @@
                         let totalMinionsKilled = lastGames[i]['totalMinionsKilled']
                         let timePlayed = lastGames[i]['timePlayed']
 
-                        let temp_html = ``
+                        let temp_html = ` <li>
+                                            <div class="logBox-css">
+                                                <div class="info">
+                                                    <div class="game-result">"${win}"</div>
+                                                    <div class="bar"></div>
+                                                    <div class="game-length">"${timePlayed}"</div>
+                                                </div>
+                                                <div class="position">
+                                                    <div class="icon">
+                                                        <img src="../static/image/bottom.png" alt="포지션아이콘">
+                                                    </div>
+                                                    <div class="name">"${teamPosition}"</div>
+                                                </div>
+                                                <div class="champion">
+                                                    <div class="icon">
+                                                        <img src="../static/image/ari.png" alt="챔피언사진">
+                                                    </div>
+                                                    <div class="name">"${championName}"</div>
+                                                </div>
+                                                <div class="kda">
+                                                    <div class="k-d-a">
+                                                        <span>"${kills}"</span>
+                                                        /
+                                                        <span style="color: red">"${deaths}"</span>
+                                                        /
+                                                        <span>"${assists}"</span>
+                                                    </div>
+                                                    <div class="status">cs "${totalMinionsKilled}"</div>
+                                                </div>
+                                            </div>
+                                        </li>`
+                        $('#gameData').append(temp_html)
                     }
                 }
-            })
+            });
         }
 
     </script>
@@ -106,9 +143,9 @@
             <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0"
                                        src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..."/></div>
             <div class="col-lg-5">
-                <h1 class="font-weight-light">소환사이름 or 이름</h1>
-                <span class="badge badge-success">Tier</span>
-                <span class="badge badge-success">Success</span>
+                <h1 class="font-weight-light">"${summonerName}"</h1>
+                <span class="badge badge-success">"${tier}"</span>
+                <span class="badge badge-success">"${rank}"</span>
                 <hr>
                 <div class="button-right">
                     <a class="btn btn-primary" href="#!">듀오 신청</a>
@@ -122,7 +159,7 @@
         <div class="card-body"><p class="text-white m-0">하고싶은말 남기는 곳</p></div>
     </div>
     <hr style="width: 1100px">
-    <ul>
+    <ul class="gameData">
         <li>
             <div class="logBox-css">
                 <div class="info">

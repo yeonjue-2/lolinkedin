@@ -15,9 +15,9 @@ def home():
     return render_template('index.html')
 
 @app.route('/api/member', methods=['GET'])
-def userInfo(userName):
+def userInfo():
 
-    userName = request.form['userName_give']    ## 누를 때 userName 받아오기..?
+    userName = request.form['userName']
 
     riotData = riotapi.RiotApi()
 
