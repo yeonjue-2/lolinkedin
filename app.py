@@ -32,7 +32,9 @@ def userInfo():
 
     lastGames = riotData.getUserLastGames(userName)
 
-    return jsonify({'tier':tier, 'rank':rank, 'lastGames':lastGames})
+    mostChampions = riotData.getMostChampion(userName)
+
+    return jsonify({'tier':tier, 'rank':rank, 'lastGames':lastGames, 'mostChampions':mostChampions})
 
 
 
