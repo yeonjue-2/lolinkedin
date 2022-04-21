@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/header.css">
     <link rel="stylesheet" type="text/css" href="/static/css/footer.css">
     <link rel="stylesheet" type="text/css" href="/static/css/userInfoCSS.css">
+
     <style>
         .wrap {
             min-height: 100vh;
@@ -41,95 +42,113 @@
         }
 
     </style>
-    <script>
-        $(document).ready(function () {
-            showUserInfo();
-        });
 
-        function showUserInfo() {
+<!--    <script>-->
+<!--        $(document).ready(function () {-->
+<!--            showUserInfo();-->
+<!--        });-->
 
-            urlSearch = new URLSearchParams(location.search);
-            userName = urlSearch.get('userName')
+<!--        function showUserInfo() {-->
 
-            //userName 쿼리 스트링
+<!--            urlSearch = new URLSearchParams(location.search);-->
+<!--            userName = urlSearch.get('userName')-->
 
-            $.ajax({
-                type: 'GET',
-                url: '/api/member?userName=' + userName,
-                data: {},
-                success: function (response) {
-                    console.log(response)
-                    let tier = response['tier']
-                    let rank = response['rank']
-                    let lastGames = response['lastGames']
+<!--            $.ajax({-->
+<!--                type: 'GET',-->
+<!--                url: '/api/member?userName=' + userName,-->
+<!--                data: {},-->
+<!--                success: function (response) {-->
+<!--                    let tier = response['tier']-->
+<!--                    let rank = response['rank']-->
+<!--                    let lastGames = response['lastGames']-->
+<!--                    let mostChampions = response['mostChampions']-->
+<!--                    let mostChampName = mostChampions['name']-->
+<!--                    let mostChampWin = mostChampions['win']-->
+<!--                    let mostChampLose = mostChampions['lose']-->
+<!--                    let allGames = mostChampWin + mostChampLose-->
+<!--                    let mostChampKills = mostChampions['kills']-->
+<!--                    let avKills = (mostChampKills / allGames).toFixed(1)-->
+<!--                    let mostChampDeaths = mostChampions['deaths']-->
+<!--                    let avDeaths = (mostChampDeaths / allGames).toFixed(1)-->
+<!--                    let mostChampAssists = mostChampions['assists']-->
+<!--                    let avAssist = (mostChampAssists / allGames).toFixed(1)-->
+<!--                    let average = ((mostChampKills + mostChampAssists) / mostChampDeaths).toFixed(2)-->
 
-                    for (let i = 0; i < lastGames.length; i++) {
-                        let summonerName = lastGames[i]['summonerName']
-                        let championName = lastGames[i]['championName']
-                        let teamPosition = lastGames[i]['teamPosition']
-                        let kills = lastGames[i]['kills']
-                        let deaths = lastGames[i]['deaths']
-                        let assists = lastGames[i][`assists`]
-                        let win = lastGames[i]['win']
-                        let gameResult
-                        console.log(win)
-                        if(win==true){
-                            gameResult ="승리"
-                        }
-                        else{
-                            gameResult="패배"
-                        }
-                        let totalMinionsKilled = lastGames[i]['totalMinionsKilled']
-                        let timePlayed = lastGames[i]['timePlayed']
-                        let minutes = parseInt(timePlayed / 60)
-                        let seconds = timePlayed % 60
+<!--                    $('#summonerName').html(userName)-->
+<!--                    $('#tier').html(tier)-->
+<!--                    $('#rank').html(rank)-->
+<!--                    $('#mostChampionName').html(mostChampName)-->
+<!--                    $('#all').html(allGames)-->
+<!--                    $('#win').html(mostChampWin)-->
+<!--                    $('#lose').html(mostChampLose)-->
+<!--                    $('#kill').html(avKills)-->
+<!--                    $('#death').html(avDeaths)-->
+<!--                    $('#assist').html(avAssist)-->
+<!--                    $('#average').html(average)-->
 
-                        console.log(lastGames[2]['win'])
+<!--                    for (let i = 0; i < lastGames.length; i++) {-->
+<!--                        let summonerName = lastGames[i]['summonerName']-->
+<!--                        let championName = lastGames[i]['championName']-->
+<!--                        let teamPosition = lastGames[i]['teamPosition']-->
+<!--                        let kills = lastGames[i]['kills']-->
+<!--                        let deaths = lastGames[i]['deaths']-->
+<!--                        let assists = lastGames[i][`assists`]-->
+<!--                        let win = lastGames[i]['win']-->
+<!--                        let gameResult-->
 
+<!--                        if (win == true) {-->
+<!--                            gameResult = "승리"-->
+<!--                        } else {-->
+<!--                            gameResult = "패배"-->
+<!--                        }-->
+<!--                        let totalMinionsKilled = lastGames[i]['totalMinionsKilled']-->
+<!--                        let timePlayed = lastGames[i]['timePlayed']-->
+<!--                        let minutes = parseInt(timePlayed / 60)-->
+<!--                        let seconds = timePlayed % 60-->
 
-                        let temp_html = `<li>
-                                            <div class="logBox-css">
-                                                <div class="info">
-                                                    <div class="game-result">${gameResult}</div>
-                                                    <div class="bar"></div>
-                                                    <div class="game-length">${minutes}분 ${seconds}초</div>
-                                                </div>
-                                                <div class="position">
-                                                    <div class="icon">
-                                                        <img src="../static/image/${teamPosition}.png" alt="포지션아이콘">
-                                                    </div>
-                                                    <div class="name">${teamPosition}</div>
-                                                </div>
-                                                <div class="champion">
-                                                    <div class="icon">
-                                                        <img src="../static/image/ari.png" alt="챔피언사진">
-                                                    </div>
-                                                    <div class="name">${championName}</div>
-                                                </div>
-                                                <div class="kda">
-                                                    <div class="k-d-a">
-                                                        <span>${kills}</span>
-                                                        /
-                                                        <span style="color: red">${deaths}</span>
-                                                        /
-                                                        <span>${assists}</span>
-                                                    </div>
-                                                    <div class="status">cs ${totalMinionsKilled}</div>
-                                                </div>
-                                            </div>
-                                        </li>`
-                        $('#gameData').append(temp_html)
+<!--                        let temp_html = `<li>-->
+<!--                                            <div class="logBox-css">-->
+<!--                                                <div class="info">-->
+<!--                                                    <div class="game-result">${gameResult}</div>-->
+<!--                                                    <div class="bar"></div>-->
+<!--                                                    <div class="game-length">${minutes}분 ${seconds}초</div>-->
+<!--                                                </div>-->
+<!--                                                <div class="position">-->
+<!--                                                    <div class="icon">-->
+<!--                                                        <img src="../static/image/${teamPosition}.png" alt="포지션아이콘">-->
+<!--                                                    </div>-->
+<!--                                                    <div class="name">${teamPosition}</div>-->
+<!--                                                </div>-->
+<!--                                                <div class="champion">-->
+<!--                                                    <div class="icon">-->
+<!--                                                        <img src="../static/image/ari.png" alt="챔피언사진">-->
+<!--                                                    </div>-->
+<!--                                                    <div class="name">${championName}</div>-->
+<!--                                                </div>-->
+<!--                                                <div class="kda">-->
+<!--                                                    <div class="k-d-a">-->
+<!--                                                        <span>${kills}</span>-->
+<!--                                                        /-->
+<!--                                                        <span style="color: red">${deaths}</span>-->
+<!--                                                        /-->
+<!--                                                        <span>${assists}</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="status">cs ${totalMinionsKilled}</div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </li>`-->
+<!--                        $('#gameData').append(temp_html)-->
 
-                        if(win==false){
-                            document.getElementsByClassName('logBox-css')[i].style.backgroundColor = 'MistyRose'
-                            document.getElementsByClassName('game-result')[i].style.color ='red'
-                        }
-                    }
-                }
-            });
-        }
+<!--                        if (win == false) {-->
+<!--                            document.getElementsByClassName('logBox-css')[i].style.backgroundColor = 'MistyRose'-->
+<!--                            document.getElementsByClassName('game-result')[i].style.color = 'red'-->
+<!--                        }-->
+<!--                    }-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
 
-    </script>
     <title>LOLinkedIn | 롤크드인</title>
 </head>
 
@@ -156,15 +175,16 @@
             </nav>
         </div>
     </header>
+    <script src="../static/js/userInfo.js"></script>
     <div class="container px-4 px-lg-5">
         <!-- Heading Row-->
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
             <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0"
                                        src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..."/></div>
             <div class="col-lg-5">
-                <h1 class="font-weight-light">summonerName</h1>
-                <span class="badge badge-success">tier</span>
-                <span class="badge badge-success">rank</span>
+                <h1 class="font-weight-light" id="summonerName">summonerName</h1>
+                <span class="badge badge-success" id="tier"></span>
+                <span class="badge badge-success" id="rank"></span>
                 <hr>
                 <div class="button-right">
                     <a class="btn btn-primary" href="#!">듀오 신청</a>
@@ -174,8 +194,37 @@
             </div>
         </div>
     </div>
-    <div class="card text-white bg-secondary my-5 py-4 text-center">
-        <div class="card-body"><p class="text-white m-0">하고싶은말 남기는 곳</p></div>
+    <div class="most">
+        <table class="mostChampLog">
+            <tbody>
+            <tr>
+                <td class="mostChampion">
+                    <div>
+                        <img src="../static/image/ari.png" alt="챔피언사진">
+                    </div>
+                    <div class="mostChampionName" id="mostChampionName"></div>
+                </td>
+                <td class="wlRate">
+                    <li>최근 20판 중 <span class="all" id="all"></span>판</li>
+                    <li><span class="win" id="win"></span>승 <span class="lose" id="lose"></span>패</li>
+                </td>
+                <td class="kdaAverage">
+                    <li>평균KDA</li>
+                    <li>
+                        <span id="kill"></span>
+                        &nbsp;/&nbsp;
+                        <span id="death" style="color: red"></span>
+                        &nbsp;/&nbsp;
+                        <span id="assist"></span>
+                    </li>
+                </td>
+                <td class="average-rate">
+                    <li>평점</li>
+                    <li class="average" id="average"></li>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <hr style="width: 1100px">
     <ul id="gameData">
