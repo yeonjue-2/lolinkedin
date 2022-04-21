@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/mainpage.css">
+    <style>
+        .wrap{
+            min-height: 100vh;
+            position: relative;
+            width: 100%;
+        }
+        header{
+                margin: auto;
+                height : 20%;
+                position: relative;
+            }
+
+            .navbar-nav {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+
+
+            .team {
+                list-style: none;
+                font-size: 18px;
+            }
+    </style>
+    <script>
+        function user_Nick() {
+            $.ajax({
+                type: "GET",
+                url: "/api/mainpage",
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    let user = response['userName']
+                    for (let i = 0; i < user.length; i++) {
+                        let userName = user[i]['userName'];
+
+                         let data = response['userData']
+                         for (let i = 0; i < data.length; i++) {
+                             let tier = data[i]['tier'];
+                             let rank = data[i]['rank'];
+
+                             let temp_html = `<div class="card text-center">
+                                                  <img class="card-img-top" src="../static/image/chal.png" alt="Card image cap">
+                                                  <div class="card-body">
+                                                    <h5 class="card-title" style="text-align:center">${tier}${rank}</h5>
+                                                    <h5 class="card-title" style="text-align:center">${userName}</h5>
+                                                    <a href="#" class="btn btn-primary" style="text-align:center">더 알아보기</a>
+                                                  </div>`
+                             $('#cards-box').append(temp_html)
+                         }
+
+                    }
+                }
+            })
+        }
+    </script>
+    <title>LOLinkedIn | 롤크드인</title>
+</head>
+
+<body>
+<div class="wrap">
+    <header>
+        <div class="header">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <a class="navbar-brand" href="#"> <img src="../static/logo/logo.png" alt="로고" width="300"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link active" href="#">About <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link" href="#">Member</a>
+                        <a class="nav-item nav-link" href="#">Community</a>
+                    </div>
+                </div>
+                <form class="form-inline">
+                    <button class="btn btn-dark" type="#">로그인</button>
+                </form>
+            </nav>
+        </div>
+
+    </header>
+    <main>
+        <div class="main-title">
+            <h1>PROFILE</h1>
+        </div>
+        <div id="cards-box" class="card-columns">
+        </div>
+
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-right">
+                <h2>PROJECT TEAM</h2>
+                <ul class="team">
+                    <li>유시준</li>
+                    <li>강현규</li>
+                    <li>김예지</li>
+                    <li>박연주</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+
+
+</html>
