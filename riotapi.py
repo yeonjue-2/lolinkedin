@@ -1,6 +1,6 @@
 import requests
 from urllib import parse
-from queue import PriorityQueue
+
 class RiotApi:
     API_KEY = "API_KEY"
     REQUEST_HEADERS = {
@@ -47,7 +47,6 @@ class RiotApi:
         lolUserInfoConsistOfJson = self.getUserInfo(userNickname);
         puuid = lolUserInfoConsistOfJson["puuid"];
         userLastGameIdList = self.getUserLastGameId(puuid,self.MOST_CHAMPION_GAME_COUNT);
-        que = PriorityQueue()
         championStat = {}
         for gameId in userLastGameIdList:
             gameInfo = requests.get("https://asia.api.riotgames.com/lol/match/v5/matches/" + gameId, headers=self.REQUEST_HEADERS).json();
@@ -84,6 +83,7 @@ class RiotApi:
                         }
                         championStat[championName] = gameStat
                     break;
+
         maxCount = 0;
         maxKda = 0;
         mostChampion = {}
