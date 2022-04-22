@@ -58,6 +58,7 @@
                     data: {},
                     dataType: "json",
                     success: function (response) {
+                        console.log(response)
                         let user = response['userDataList']
                         for (let i = 0; i < user.length; i++) {
                             let userName = user[i]['userName'];
@@ -110,8 +111,7 @@
         <div class="main-title">
             <h1>PROFILE</h1>
         </div>
-         <div id="cards-box" class="card-columns">
-
+            <div id="cards-box" class="card-columns">
          </div>
         </div>
 
