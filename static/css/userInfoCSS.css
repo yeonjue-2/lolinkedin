@@ -54,7 +54,7 @@ li {
     background-color: #d2d2d2;
 }
 
-.logBox-css > div.position .icon{
+.logBox-css > div.position .icon {
     display: inline-block;
     width: 50px;
     height: 50px;
@@ -64,7 +64,7 @@ li {
     background-color: #0078FF;
 }
 
-.logBox-css > div.position .name{
+.logBox-css > div.position .name {
     margin-top: 8px;
     margin-bottom: 8px;
     font-size: 15px;
@@ -75,7 +75,7 @@ li {
     text-overflow: ellipsis;
 }
 
-.logBox-css > div.champion .icon{
+.logBox-css > div.champion .icon {
     display: inline-block;
     width: 50px;
     height: 50px;
@@ -85,7 +85,7 @@ li {
 }
 
 
-.logBox-css > div.champion .name{
+.logBox-css > div.champion .name {
     margin-top: 8px;
     margin-bottom: 8px;
     font-size: 15px;
@@ -96,27 +96,27 @@ li {
     text-overflow: ellipsis;
 }
 
-.logBox-css > div.kda{
+.logBox-css > div.kda {
     font-size: 18px;
     text-align: center;
 }
 
-.logBox-css > div.kda .k-d-a{
+.logBox-css > div.kda .k-d-a {
     color: #505050;
     font-size: 15px;
     white-space: nowrap;
     font-weight: bold;
 }
 
-.most{
-    background-color : black;
+.most {
+    background-color: black;
     width: 1000px;
     height: 150px;
     margin-left: auto;
-    margin-right:auto;
+    margin-right: auto;
 }
 
-table{
+table {
     width: 1000px;
     height: 150px;
     display: table;
@@ -128,23 +128,29 @@ table{
     margin-bottom: auto;
 }
 
-td{
-     width: 250px;
+td {
+    width: 250px;
 }
 
-.most > td.mostChampion{
+.most > td.mostChampion {
     text-align: center;
     vertical-align: middle;
 }
 
-.most > table.mostChampLog td.wlRate .win{
+.most > td.mostChampion .picture {
+    width: 60px;
+    height: 60px;
+}
+
+.most > table.mostChampLog td.wlRate .win {
     color: #0078FF;
 }
 
-.most > table.mostChampLog td.wlRate .lose{
+.most > table.mostChampLog td.wlRate .lose {
     color: hotpink;
 }
 
-.most > table.mostChampLog td.average-rate .average{
+.most > table.mostChampLog td.average-rate .average {
     color: greenyellow;
 }
+
