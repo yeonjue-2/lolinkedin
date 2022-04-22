@@ -39,7 +39,7 @@ function showUserInfo() {
             $('#death').html(avDeaths)
             $('#assist').html(avAssist)
             $('#average').html(average)
-            $('#picture').attr('src',"../static/image/"+mostChampName+".png")
+            $('#picture').attr('src', "../static/image/" + mostChampName + ".png")
 
             for (let i = 0; i < lastGames.length; i++) {
                 let summonerName = lastGames[i]['summonerName']
@@ -56,6 +56,7 @@ function showUserInfo() {
                 } else {
                     gameResult = "패배"
                 }
+
                 let totalMinionsKilled = lastGames[i]['totalMinionsKilled']
                 let timePlayed = lastGames[i]['timePlayed']
                 let minutes = parseInt(timePlayed / 60)
