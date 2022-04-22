@@ -27,15 +27,17 @@ def user_nick():
 
     userDataList = []
 
-    riotData = riotapi.RiotApi()
+
 
     for user in userinput:
         userData = {}
-        userData['userData'] = riotData.getUserRankInfo(user['userName'])
+        riotData = riotapi.RiotApi(user['userName'])
+        userData['userData'] = riotData.getUserRankInfo()
         userData['userName'] = user['userName']
         userDataList.append(userData);
 
-    return jsonify(userDataList)
+    return jsonify({'userDataList':userDataList})
+
 
 
 @app.route('/api/member', methods=['GET'])
@@ -57,4 +59,4 @@ def userInfo():
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5002, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
