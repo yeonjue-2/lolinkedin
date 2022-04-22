@@ -1,0 +1,75 @@
+{% extends "baseLayout.html" %}
+{% block content %}
+
+<style>
+
+
+    .loGin {
+
+        width: 500px;
+        display: block;
+        margin: auto;
+        margin-top : 25px;
+        padding: 10px;
+
+    }
+
+    .loGin-inPut {
+
+        width: 530px;
+        margin:auto;
+        text-align: justify;
+        padding: 15px;
+
+    }
+
+</style>
+
+
+        <div class="loGin-inPut input-group input-group-lg">
+            <input type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-lg"  placeholder="아이디" name="userId">
+        </div>
+        <div class="loGin-inPut input-group input-group-lg">
+            <input type="password" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-lg"  placeholder="비밀번호" name="password">
+        </div>
+
+        <button class="loGin btn btn-dark" onclick="login()"> 로그인하기</button>
+
+        <a class="loGin btn btn-dark"   href="{{ url_for('register')}}">회원가입</a>
+
+
+<script>
+
+    function login() {
+        let userId = $("input[name=userId]").val();
+        let password = $("input[name=password]").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: {"userId" : userId , "password":password},
+
+
+            success: function (response) {
+                 alert(response["msg"]);
+
+                if(response["msg"] == '로그인 되었습니다!'){
+                    location.href = '/'
+                }
+                else{
+                }
+            },
+
+        })
+    }
+
+
+
+</script>
+
+
+
+{% endblock %}
+
