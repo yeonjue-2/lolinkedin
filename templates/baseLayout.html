@@ -52,12 +52,13 @@
                     </div>
                 </div>
                 <form class="form-inline">
-                    <button class="btn btn-dark" type="#">로그인</button>
+                    <a class="btn btn-dark" href="{{ url_for('login')}}"   >로그인</a>
                 </form>
             </nav>
         </div>
     </header>
-
+    {% block content %}
+    {% endblock %}
 
     <footer>
         <div class="footer-container">
@@ -67,7 +68,7 @@
                     <li>유시준</li>
                     <li>강현규</li>
                     <li>김예지</li>
-                    <li>최현우</li>
+                    <li>박연주</li>
                 </ul>
             </div>
         </div>
