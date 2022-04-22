@@ -48,36 +48,36 @@
             }
     </style>
     <script>
-        function user_Nick() {
-            $.ajax({
-                type: "GET",
-                url: "/api/mainpage",
-                data: {},
-                success: function (response) {
-                    console.log(response)
-                    let user = response['userName']
-                    for (let i = 0; i < user.length; i++) {
-                        let userName = user[i]['userName'];
+        $(document).ready(function () {
+                user_nick();
+            });
+            function user_nick() {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/mainpage",
+                    data: {},
+                    dataType: "json",
+                    success: function (response) {
+                        let user = response['userDataList']
+                        for (let i = 0; i < user.length; i++) {
+                            let userName = user[i]['userName'];
+                            let tier = user[i]['userData'][0]['tier'];
+                            let rank = user[i]['userData'][0]['rank'];
 
-                         let data = response['userData']
-                         for (let i = 0; i < data.length; i++) {
-                             let tier = data[i]['tier'];
-                             let rank = data[i]['rank'];
-
-                             let temp_html = `<div class="card text-center">
+                            let temp_html = `<div class="card text-center" style="width: 18rem;">
                                                   <img class="card-img-top" src="../static/image/chal.png" alt="Card image cap">
                                                   <div class="card-body">
-                                                    <h5 class="card-title" style="text-align:center">${tier}${rank}</h5>
-                                                    <h5 class="card-title" style="text-align:center">${userName}</h5>
-                                                    <a href="#" class="btn btn-primary" style="text-align:center">더 알아보기</a>
-                                                  </div>`
-                             $('#cards-box').append(temp_html)
-                         }
+                                                      <h5 class="card-title" style="text-align:center">${tier} ${rank}</h5>
+                                                      <h5 class="card-title" style="text-align:center">${userName}</h5>
+                                                      <a href="http://127.0.0.1:5000/userinfo?userName=${userName}" class="btn btn-primary" style="text-align:center">더 알아보기</a>
+                                                  </div>
+                                              </div>`
+                            $('#cards-box').append(temp_html)
+                            }
 
-                    }
-                }
-            })
-        }
+                        }
+                })
+            }
     </script>
     <title>LOLinkedIn | 롤크드인</title>
 </head>
@@ -106,15 +106,16 @@
         </div>
 
     </header>
-    <main>
+
         <div class="main-title">
             <h1>PROFILE</h1>
         </div>
-        <div id="cards-box" class="card-columns">
+         <div id="cards-box" class="card-columns">
+
+         </div>
         </div>
 
 
-    </main>
 
     <footer>
         <div class="footer-container">

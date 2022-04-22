@@ -1,14 +1,16 @@
-        main {
-                margin: 10px auto 100px auto;
-                height: 110px;
-                width: 1100px;
-            }
+
             .main-title{
-                margin : 10px 10px 10px 10px;
+                margin : 10px 10px 10px 90px;
             }
-            .card {
+            .card-columns{
+                display: flex;
+                margin : auto 100px auto 100px;
+            }
+
+            .card-colums > div.card {
                 border: 2px solid grey;
-                border-radius:5px;float: left;
+                border-radius:5px;
+                float : left;
                 width: 21%;
-                margin: auto 10px 20px 10px;
+                margin: auto auto auto auto;
             }
