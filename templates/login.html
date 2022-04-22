@@ -41,6 +41,9 @@
 
 
 <script>
+{#window.sStorage = window.sessionStorage#}
+{#sStorage.getItem("userInfo")#}
+{#console.log(sStorage.getItem("userInfo"))#}
 
     function login() {
         let userId = $("input[name=userId]").val();

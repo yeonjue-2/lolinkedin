@@ -10,7 +10,7 @@ db = client.dbchallenger
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('mainpage.html')
 
 @app.route('/userinfo')
 def showUserInfo():
@@ -60,28 +60,21 @@ def login():
     if request.method == 'GET':
         return render_template("login.html")
     else:
-
         userId = request.form.get('userId')
         password = request.form.get('password')
 
         if not (userId and password ):
             return jsonify({'msg': '모두 입력해주세요!'})
 
-        user = db.members.find_one({"userId": userId, "password": password}, {"name", "email", "summersName"})
-
-
-        counting = db.members.find_one({"userId": userId, "password": password})
-
-
+        user = db.dbchallenger.find_one({"userId": userId, "password": password}, {"name", "email", "summersName"})
+        counting = db.dbchallenger.find_one({"userId": userId, "password": password})
 
         if counting == None:
             return jsonify({'msg': '아이디와 비밀번호를 확인해주세요.'})
 
         else:
 
-            session['userInfo'] = jsonify(user)
-
-
+            # session['userInfo'] = user
 
             return jsonify({'msg': '로그인 되었습니다!'})
 
@@ -119,7 +112,7 @@ def register():
             'summersName': summersName
         }
 
-        db.members.insert_one(doc)
+        db.dbchallenger.insert_one(doc)
 
 
     return jsonify({'msg': '회원가입 완료! 환영합니다!'})
