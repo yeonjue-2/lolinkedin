@@ -23,22 +23,18 @@ def showmain():
 
 @app.route('/api/mainpage', methods=['GET'])
 def user_nick():
-    userinput = list(db.users.find())
+    userinput = list(db.members.find())
 
     userDataList = []
 
-
-
     for user in userinput:
         userData = {}
-        riotData = riotapi.RiotApi(user['userName'])
+        riotData = riotapi.RiotApi(user['summersName'])
         userData['userData'] = riotData.getUserRankInfo()
-        userData['userName'] = user['userName']
+        userData['userName'] = user['summersName']
         userDataList.append(userData);
 
     return jsonify({'userDataList':userDataList})
-
-
 
 @app.route('/api/member', methods=['GET'])
 def userInfo():

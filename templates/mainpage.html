@@ -58,6 +58,7 @@
                     data: {},
                     dataType: "json",
                     success: function (response) {
+                        console.log(response)
                         let user = response['userDataList']
                         for (let i = 0; i < user.length; i++) {
                             let userName = user[i]['userName'];
@@ -65,7 +66,7 @@
                             let rank = user[i]['userData'][0]['rank'];
 
                             let temp_html = `<div class="card text-center" style="width: 18rem;">
-                                                  <img class="card-img-top" src="../static/image/chal.png" alt="Card image cap">
+                                                  <img class="card-img-top" src="../static/image/${tier}.png" alt="Card image cap">
                                                   <div class="card-body">
                                                       <h5 class="card-title" style="text-align:center">${tier} ${rank}</h5>
                                                       <h5 class="card-title" style="text-align:center">${userName}</h5>
@@ -110,8 +111,7 @@
         <div class="main-title">
             <h1>PROFILE</h1>
         </div>
-         <div id="cards-box" class="card-columns">
-
+            <div id="cards-box" class="card-columns">
          </div>
         </div>
 
