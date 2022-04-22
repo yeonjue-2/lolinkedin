@@ -8,6 +8,10 @@ app = Flask(__name__)
 client = MongoClient('localhost', 27017)
 db = client.dbchallenger
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 @app.route('/userinfo')
 def showUserInfo():
     return render_template('userInfo.html')
@@ -65,7 +69,7 @@ def login():
         if not (userId and password ):
             return jsonify({'msg': '모두 입력해주세요!'})
 
-        user = db.members.find_one({"userId": userId, "password": password}, {"name", "email", "summonersName"})
+        user = db.members.find_one({"userId": userId, "password": password}, {"name", "email", "summersName"})
 
 
         counting = db.members.find_one({"userId": userId, "password": password})
