@@ -1,0 +1,94 @@
+{% extends "baseLayout.html" %}
+{% block content %}
+
+<style>
+
+
+    .loGin {
+
+        width: 500px;
+        display: block;
+        margin: auto;
+        margin-top: 25px;
+        margin-bottom: 500px;
+        padding: 10px;
+
+    }
+
+    .loGin-inPut {
+
+        width: 530px;
+        margin: auto;
+        text-align: justify;
+        padding: 15px;
+
+
+    }
+
+
+</style>
+
+    <div class="loGin-inPut input-group input-group-lg">
+        <input type="text" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-lg" placeholder="아이디" name="userId">
+    </div>
+    <div class="loGin-inPut input-group input-group-lg">
+        <input type="password" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-lg" placeholder="비밀번호" name="password">
+    </div>
+    <div class="loGin-inPut input-group input-group-lg">
+        <input type="text" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-lg" placeholder="이름" name="name">
+    </div>
+    <div class="loGin-inPut input-group input-group-lg">
+        <input type="text" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-lg" placeholder="이메일" name="email">
+    </div>
+    <div class="loGin-inPut input-group input-group-lg">
+        <input type="text" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-lg" placeholder="소환사명" name="summersName">
+    </div>
+    <button class="loGin btn btn-dark" onclick="signUp()">가입하기</button>
+
+<script>
+    class Member {
+        constructor(userId, password, name, email, summersName) {
+            this.userId = userId;
+            this.password = password;
+            this.name = name;
+            this.email = email;
+            this.summersName = summersName;
+        }
+    }
+
+
+    function signUp() {
+
+        $.ajax({
+            type: "POST",
+            url: "/register",
+            data:  new Member($("input[name=userId]").val()
+                                ,$("input[name=password]").val()
+                                ,$("input[name=name]").val()
+                                , $("input[name=email]").val()
+                                ,$("input[name=summersName]").val()),
+            async : false,
+            success: function (response) {
+                alert(response["msg"]);
+
+                if(response["msg"] == '회원가입 완료! 환영합니다!'){
+                    location.href = '/'
+                }
+            },
+
+        })
+    }
+
+
+
+
+</script>
+
+
+{% endblock %}
+

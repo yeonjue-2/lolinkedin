@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request , session
 
 import riotapi
 
@@ -54,7 +54,77 @@ def userInfo():
 
     return jsonify({'tier':tier, 'rank':rank, 'lastGames':lastGames, 'mostChampions':mostChampions})
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+
+    if request.method == 'GET':
+        return render_template("login.html")
+    else:
+
+        userId = request.form.get('userId')
+        password = request.form.get('password')
+
+        if not (userId and password ):
+            return jsonify({'msg': '모두 입력해주세요!'})
+
+        user = db.members.find_one({"userId": userId, "password": password}, {"name", "email", "summersName"})
+
+
+        counting = db.members.find_one({"userId": userId, "password": password})
+
+
+
+        if counting == None:
+            return jsonify({'msg': '아이디와 비밀번호를 확인해주세요.'})
+
+        else:
+
+            session['userInfo'] = jsonify(user)
+
+
+
+            return jsonify({'msg': '로그인 되었습니다!'})
+
+
+
+
+
+
+
+
+
+
+@app.route('/register', methods=['GET','POST'])
+def register():
+
+
+    if request.method == 'GET':
+        return render_template("register.html")
+    else:
+
+        userId = request.form.get('userId')
+        password = request.form.get('password')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        summersName = request.form.get('summersName')
+
+        if not (userId and password and name and email and summersName):
+            return jsonify({'msg': '모두 입력해주세요!'})
+
+        else: doc = {
+            'userId': userId,
+            'password': password,
+            'name': name,
+            'email': email,
+            'summersName': summersName
+        }
+
+        db.members.insert_one(doc)
+
+
+    return jsonify({'msg': '회원가입 완료! 환영합니다!'})
+
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5002, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
